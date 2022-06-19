@@ -38,12 +38,13 @@ def reorder_polygon(P):
     P = deque(P)
     P.rotate(pos)
     P = list(P)
+    return P
 
 
 def minkowski(P, Q):
     # the first vertex must be the lowest
-    reorder_polygon(P)
-    reorder_polygon(Q)
+    P = reorder_polygon(P)
+    Q = reorder_polygon(Q)
     # we must ensure cyclic indexing
     P.append(P[0])
     P.append(P[1])
@@ -72,13 +73,13 @@ def visualize(P,color):
     poly = Polygon(y, facecolor=color)
 
     ax.add_patch(poly)
-    ax.set_xlim(-5, 5)
-    ax.set_ylim(0, 10)
+    ax.set_xlim(-10, 10)
+    ax.set_ylim(-10, 10)
 
 
 def main():
     P = [Point2d(2, 1), Point2d(4, 1), Point2d(4, 3), Point2d(2, 3)]
-    Q = [Point2d(-3, 1), Point2d(-2, 2), Point2d(-4, 2)]
+    Q = [Point2d(0, 1), Point2d(-1, -1), Point2d(1, -1)]
     visualize(P, 'red')
     visualize(Q, 'green')
 
