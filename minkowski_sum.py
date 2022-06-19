@@ -1,5 +1,11 @@
 from collections import deque
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Polygon
+
+
+fig, ax = plt.subplots()
+
 
 class Point2d:
     x = 0
@@ -18,6 +24,9 @@ class Point2d:
     def cross(self, q):
         return self.x * q.y - self.y * q.x
 
+    def toList(self):
+        return np.array([self.x, self.y])
+
 
 def reorder_polygon(P):
     pos = 0
@@ -33,8 +42,8 @@ def reorder_polygon(P):
 
 def minkowski(P, Q):
     # the first vertex must be the lowest
-    # reorder_polygon(P)
-    # reorder_polygon(Q)
+    reorder_polygon(P)
+    reorder_polygon(Q)
     # we must ensure cyclic indexing
     P.append(P[0])
     P.append(P[1])
@@ -56,15 +65,27 @@ def minkowski(P, Q):
 
     return result
 
-def visualize(P):
+def visualize(P,color):
+    y = P[0].toList()
     for p in P:
+        y = np.vstack((y, p.toList()))
+    poly = Polygon(y, facecolor=color)
+
+    ax.add_patch(poly)
+    ax.set_xlim(-5, 5)
+    ax.set_ylim(0, 10)
 
 
 def main():
     P = [Point2d(2, 1), Point2d(4, 1), Point2d(4, 3), Point2d(2, 3)]
     Q = [Point2d(-3, 1), Point2d(-2, 2), Point2d(-4, 2)]
-    result = minkowski(P, Q)
+    visualize(P, 'red')
+    visualize(Q, 'green')
 
+    result = minkowski(P, Q)
+    visualize(result, 'blue')
+    plt.grid()
+    plt.show()
 
 
 if __name__ == '__main__':
