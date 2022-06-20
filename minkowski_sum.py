@@ -24,6 +24,7 @@ class Point2d:
     def cross(self, q):
         return self.x * q.y - self.y * q.x
 
+    # convert point2d to list
     def toList(self):
         return np.array([self.x, self.y])
 
@@ -65,6 +66,7 @@ def minkowski(P, Q):
             j += 1
 
     return result
+
 
 def visualize(P,color):
     y = P[0].toList()
